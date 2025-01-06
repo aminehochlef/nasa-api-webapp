@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>NASA Astronomy Picture of the Day</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="mb-4">
+        <h1>NASA Astronomy Picture of the Day</h1>
+    </div>
+
+    <div class="card text-white bg-dark mb-5 p-2">
+        <div class="card-header">
+            <h2 class="text-center" th:text="${apod.title}">Title</h2>
+        </div>
+        <div class="card-body d-flex justify-content-center align-items-center">
+            <img style="height: 380px" th:if="${apod.media_type == 'image'}" th:src="${apod.url}" class="img-fluid mb-3" alt="APOD">
+            <div class="ms-5">
+                <p class="card-text" th:text="${apod.explanation}">Explanation</p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-evenly">
+        <p class="text-white bg-dark text-center">Date: <span th:text="${apod.date}">Date</span></p>
+        <a class="text-decoration-none" th:href="${apod.hdurl}" target="_blank">See the full Picture</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

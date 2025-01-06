@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Mars Rover Photos</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="mb-5">
+            <h1>Mars Rover Photos</h1>
+            <p class="lead">Explore photos from different rovers, insert a date and a rover to begin</p>
+        </div>
+
+        <form class="row mb-5 align-items-end">
+            <div class="col-4">
+                <label for="rover" class="form-label">Select Rover</label>
+                <select class="form-select" id="rover" name="rover">
+                    <option value="spirit" th:selected="${selectedRover == 'spirit'}">Spirit</option>
+                    <option value="opportunity" th:selected="${selectedRover == 'opportunity'}">Opportunity</option>
+                    <option value="curiosity" th:selected="${selectedRover == 'curiosity'}">Curiosity</option>
+                    <option value="perseverance" th:selected="${selectedRover == 'perseverance'}">Perseverance</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <label for="date" class="form-label">Earth Date</label>
+                <input type="date" class="form-control" id="date" name="date" th:value="${selectedDate}">
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Search Photos</button>
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+                <a th:href="@{/rover/info}" class="btn btn-info">
+                    Rover Information
+                </a>
+            </div>
+        </form>
+
+        <!-- Results -->
+        <div th:if="${photos != null and !photos.empty}" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+            <div th:each="photo : ${photos}" class="col">
+                <div class="card h-100">
+                    <img th:src="${photo.img_src}" class="card-img-top img-thumbnail" th:alt="'Mars photo by ' + ${photo.camera.full_name}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${photo.camera.full_name}">Camera Name</h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                Taken by: <span th:text="${photo.rover.name}">Rover</span><br>
+                                Earth Date: <span th:text="${photo.earth_date}">Date</span><br>
+                                Sol: <span th:text="${photo.sol}">Sol</span><br>
+                                <span><a class="text-decoration-none" th:href="${photo.img_src}" target="_blank">See full Picture</a></span>
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div th:if="${photos != null and photos.empty}" class="alert alert-info">
+            No photos found for the selected date and rover.
+        </div>
+    </div>
+</div>
+</body>
+</html>
